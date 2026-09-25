@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Portfolio — Samay Thakur</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+/* ── BASE & DESIGN SYSTEM TOKENS ── */
+:root {
+  --bg-page: #ffffff;
+  --bg-card: #ffffff;
+  --bg-surface: #f8f9fa;
+  --border-color: #111111;
+  --border-subtle: #e5e7eb;
+  --text-primary: #000000;
+  --text-muted: #555555;
+  --font-sans: 'Inter', -apple-system, sans-serif;
+  --font-head: 'Space Grotesk', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  --shadow-card: 6px 6px 0px #111111;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.65;
+  font-size: 15px;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── LAYOUT STRUCTURE ── */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* LEFT SIDEBAR */
+.sidebar {
+  width: 290px;
+  min-width: 290px;
+  background: var(--bg-card);
+  border-right: 2px solid var(--border-color);
+  padding: 2.5rem 1.75rem;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 100;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.app-container.sidebar-closed .sidebar {
+  transform: translateX(-100%);
+}
+
+.sidebar-profile {
+  margin-bottom: 2rem;
+}
+
+.profile-avatar {
+  width: 88px;
+  height: 88px;
+  border: 2px solid var(--border-color);
+  background: #111111;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-head);
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  box-shadow: 4px 4px 0px var(--border-color);
+}
+
+.sidebar-name {
+  font-family: var(--font-head);
+  font-size: 1.4rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+}
+
+.sidebar-title {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  margin-bottom: 1.5rem;
+  line-height: 1.45;
+}
+
+.sidebar-nav {
+  list-style: none;
+  margin-bottom: 2rem;
+  border-top: 2px solid var(--border-color);
+  padding-top: 1.5rem;
+}
+
+.sidebar-nav li {
+  margin-bottom: 0.65rem;
+}
+
+.sidebar-nav a {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 4px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.sidebar-nav a:hover {
+  background: #111111;
+  color: #ffffff;
+}
+
+.sidebar-contact {
+  border-top: 2px solid var(--border-color);
+  padding-top: 1.5rem;
+  font-size: 0.8rem;
+}
+
+.sidebar-contact-item {
+  margin-bottom: 0.75rem;
+  word-break: break-all;
+}
+
+.sidebar-contact-label {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.contact-btn {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  border: 2px solid var(--border-color);
+  padding: 4px 8px;
+  background: #ffffff;
+  color: #111111;
+  transition: all 0.15s ease;
+  display: inline-block;
+}
+
+.contact-btn:hover {
+  background: #111111;
+  color: #ffffff;
+  box-shadow: 2px 2px 0px var(--border-color);
+}
+
+.contact-btn.primary {
+  background: #111111;
+  color: #ffffff;
+}
+
+.contact-btn.primary:hover {
+  background: #ffffff;
+  color: #111111;
+}
+
+/* MAIN CONTENT */
+.main-content {
+  margin-left: 290px;
+  flex: 1;
+  padding: 2.5rem 4rem 4rem 4rem;
+  width: calc(100% - 290px);
+  transition: margin-left 0.3s cubic-bezier(0.16, 1, 0.3, 1), width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.app-container.sidebar-closed .main-content {
+  margin-left: 0;
+  width: 100%;
+}
+
+/* TOP UTILITY BAR */
+.top-utility-bar {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 2.5rem;
+  position: sticky;
+  top: 1rem;
+  z-index: 90;
+}
+
+.utility-icon-btn {
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  box-shadow: 3px 3px 0px var(--border-color);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.utility-icon-btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0px var(--border-color);
+  background: #111111;
+}
+
+.utility-icon-btn:hover svg {
+  stroke: #ffffff;
+}
+
+.utility-icon-btn svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--text-primary);
+  stroke-width: 2.2;
+}
+
+/* SEARCH OVERLAY BAR */
+.search-overlay {
+  display: none;
+  background: var(--bg-card);
+  border: 2px solid var(--border-color);
+  padding: 0.85rem 1.25rem;
+  margin-bottom: 2.5rem;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 4px 4px 0px var(--border-color);
+}
+
+.search-overlay.active {
+  display: flex;
+}
+
+.search-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  background: transparent;
+}
+
+.search-close-btn {
+  background: none;
+  border: none;
+  font-family: var(--font-mono);
+  font-weight: 700;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+mark.search-highlight {
+  background-color: #111111;
+  color: #ffffff;
+  padding: 0 4px;
+}
+
+/* ── SECTIONS ── */
+.section {
+  margin-bottom: 4rem;
+  transition: opacity 0.2s ease;
+}
+
+.section.search-hidden {
+  display: none !important;
+}
+
+.section-header {
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.65rem;
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.section-title {
+  font-family: var(--font-head);
+  font-size: 1.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+}
+
+/* PROJECT CARDS */
+.project-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.project-card {
+  border: 2px solid var(--border-color);
+  background: var(--bg-card);
+  display: grid;
+  grid-template-columns: 70px 1fr;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 4px 4px 0px var(--border-color);
+  overflow: hidden;
+}
+
+.project-card.search-hidden {
+  display: none !important;
+}
+
+.project-card:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: var(--shadow-card);
+}
+
+.project-num {
+  background: var(--border-color);
+  color: var(--bg-card);
+  font-family: var(--font-mono);
+  font-size: 1.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: 2px solid var(--border-color);
+}
+
+.project-details {
+  padding: 2rem;
+}
+
+.project-title {
+  font-family: var(--font-head);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.01em;
+}
+
+.project-subtitle {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-bottom: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.project-desc {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
+}
+
+.project-desc ul {
+  padding-left: 1.2rem;
+}
+
+.project-desc li {
+  margin-bottom: 0.5rem;
+}
+
+/* MEDIA CONTAINERS & BADGES */
+.project-image-container {
+  margin-bottom: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.project-media-item {
+  width: 100%;
+  background: var(--bg-surface);
+  border: 2px solid var(--border-color);
+  padding: 8px;
+}
+
+.project-media-item img {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  display: block;
+  cursor: zoom-in;
+  transition: opacity 0.2s ease;
+}
+
+.project-media-item img:hover {
+  opacity: 0.88;
+}
+
+.project-media-item video {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  display: block;
+  background: #000000;
+}
+
+.project-image-title {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  margin-top: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.project-link {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 2px solid var(--border-color);
+  padding: 6px 12px;
+  background: #ffffff;
+  transition: all 0.15s ease;
+  margin-top: 0.5rem;
+}
+
+.project-link:hover {
+  background: #111111;
+  color: #ffffff;
+  box-shadow: 3px 3px 0px var(--border-color);
+}
+
+/* LIGHTBOX MODAL */
+.lightbox-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+  cursor: zoom-out;
+  padding: 2rem;
+}
+
+.lightbox-modal.active {
+  display: flex;
+}
+
+.lightbox-modal img {
+  max-width: 90%;
+  max-height: 90%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 25px rgba(0,0,0,0.8);
+  object-fit: contain;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 1.5rem;
+  right: 2.5rem;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 2.2rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* TABLES */
+.academic-table {
+  width: 100%;
+  border-collapse: collapse;
+  box-shadow: 4px 4px 0px var(--border-color);
+  table-layout: fixed;
+}
+
+.academic-table tr.search-hidden {
+  display: none !important;
+}
+
+.academic-table th, .academic-table td {
+  border: 2px solid var(--border-color);
+  padding: 1.1rem 1.25rem;
+  text-align: left;
+  vertical-align: top;
+  word-wrap: break-word;
+}
+
+.academic-table th {
+  background: #111111;
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.academic-table td.year {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  width: 180px;
+  background: var(--bg-surface);
+}
+
+/* TECHNICAL SKILLS GRID */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.skill-box {
+  border: 2px solid var(--border-color);
+  background: var(--bg-card);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 4px 4px 0px var(--border-color);
+  transition: transform 0.15s ease;
+}
+
+.skill-box:hover {
+  transform: translate(-2px, -2px);
+}
+
+.skill-box.search-hidden {
+  display: none !important;
+}
+
+.skill-box-title {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.skill-list {
+  list-style: none;
+}
+
+.skill-list li {
+  margin-bottom: 0.45rem;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.skill-list li::before {
+  content: "—";
+  font-family: var(--font-mono);
+  font-weight: 700;
+}
+
+/* FOOTER */
+footer {
+  border-top: 2px solid var(--border-color);
+  padding-top: 2rem;
+  margin-top: 4rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  justify-content: space-between;
+}
+
+/* RESPONSIVE */
+
+/* Table horizontal scroll wrapper (all breakpoints, only kicks in when needed) */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── MOBILE TOP BAR (hidden on desktop) ── */
+.mobile-topbar {
+  display: none;
+}
+
+/* ── MOBILE NAV BACKDROP (hidden on desktop) ── */
+.mobile-nav-backdrop {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 60px;
+    padding: 0 1rem;
+    background: var(--bg-card);
+    border-bottom: 2px solid var(--border-color);
+    z-index: 200;
+  }
+
+  .mobile-topbar-identity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .mobile-topbar-avatar {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border: 2px solid var(--border-color);
+    background: #111111;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-head);
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .mobile-topbar-name {
+    font-family: var(--font-head);
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .mobile-topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .mobile-topbar-actions .utility-icon-btn {
+    padding: 6px;
+    box-shadow: none;
+  }
+
+  .mobile-menu-btn {
+    background: none;
+    border: 2px solid var(--border-color);
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .mobile-menu-btn svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--text-primary);
+    stroke-width: 2.2;
+  }
+
+  /* Original desktop sidebar-toggle button not needed on mobile; hamburger replaces it */
+  #toggleSidebarBtn {
+    display: none;
+  }
+
+  .mobile-nav-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 150;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+  }
+
+  .app-container.mobile-nav-open .mobile-nav-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 960px) {
+  .app-container {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    min-width: 100%;
+    position: relative;
+    border-right: none;
+    border-bottom: 2px solid var(--border-color);
+    padding: 2rem;
+    transform: none !important;
+  }
+  .main-content {
+    margin-left: 0 !important;
+    width: 100% !important;
+    padding: 2rem 1.5rem;
+  }
+  .project-card {
+    grid-template-columns: 1fr;
+  }
+  .project-num {
+    padding: 0.75rem;
+    border-right: none;
+    border-bottom: 2px solid var(--border-color);
+  }
+  .academic-table {
+    table-layout: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Sidebar becomes an off-canvas drawer instead of an inline block */
+  .sidebar {
+    position: fixed !important;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 82% !important;
+    max-width: 320px;
+    min-width: 0;
+    border-bottom: none;
+    border-right: 2px solid var(--border-color);
+    padding: 5rem 1.5rem 2rem;
+    z-index: 180;
+    overflow-y: auto;
+    transform: translateX(-100%) !important;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 8px 0 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .app-container.mobile-nav-open .sidebar {
+    transform: translateX(0) !important;
+  }
+
+  .main-content {
+    padding: 76px 1.25rem 2.5rem !important;
+  }
+
+  .top-utility-bar {
+    display: none;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .project-image-container {
+    grid-template-columns: 1fr;
+  }
+
+  .project-media-item img,
+  .project-media-item video {
+    height: 200px;
+  }
+
+  .project-details {
+    padding: 1.25rem;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  footer {
+    flex-direction: column;
+    gap: 0.4rem;
+    text-align: left;
+  }
+
+  /* Tables scroll horizontally instead of squeezing columns unreadably */
+  .academic-table {
+    min-width: 560px;
+  }
+}
+
+@media (max-width: 420px) {
+  body {
+    font-size: 14px;
+  }
+  .sidebar-name,
+  h1.sidebar-name {
+    font-size: 1.2rem;
+  }
+  .section-title {
+    font-size: 1.3rem;
+  }
+  .project-title {
+    font-size: 1.2rem;
+  }
+  .project-media-item img,
+  .project-media-item video {
+    height: 170px;
+  }
+}
+</style>
+</head>
+<body>
+
+<div class="app-container" id="appContainer">
+
+  <!-- MOBILE TOP BAR -->
+  <div class="mobile-topbar">
+    <div class="mobile-topbar-identity">
+      <div class="mobile-topbar-avatar">ST</div>
+      <div class="mobile-topbar-name">Samay Thakur</div>
+    </div>
+    <div class="mobile-topbar-actions">
+      <button class="utility-icon-btn" id="mobileSearchBtn" aria-label="Search" title="Search page">
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+        </svg>
+      </button>
+      <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open navigation menu" aria-expanded="false" title="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round">
+          <line x1="3" y1="6" x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- MOBILE NAV BACKDROP -->
+  <div class="mobile-nav-backdrop" id="mobileNavBackdrop"></div>
+
+  <!-- LEFT SIDEBAR -->
+  <aside class="sidebar">
+    <div>
+      <div class="sidebar-profile">
+        <div class="profile-avatar">ST</div>
+        <h1 class="sidebar-name">Samay Thakur</h1>
+        <div class="sidebar-title">
+          B.E. Electronics & Instrumentation Engineering<br/>
+          M.S. Ramaiah Institute of Technology, Bengaluru, India
+        </div>
+      </div>
+
+      <ul class="sidebar-nav">
+        <li><a href="#about"><span>ABOUT</span> <span>→</span></a></li>
+        <li><a href="#projects"><span>PROJECTS</span> <span>→</span></a></li>
+        <li><a href="#experience"><span>EXPERIENCE</span> <span>→</span></a></li>
+        <li><a href="#education"><span>ACADEMICS</span> <span>→</span></a></li>
+        <li><a href="#skills"><span>SKILLS</span> <span>→</span></a></li>
+        <li><a href="#certificates"><span>CERTIFICATIONS</span> <span>→</span></a></li>
+        <li><a href="#leadership"><span>ACTIVITIES</span> <span>→</span></a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-contact">
+      <div class="sidebar-contact-item">
+        <span class="sidebar-contact-label">Location</span>
+        Bengaluru, India
+      </div>
+      <div class="sidebar-contact-item">
+        <span class="sidebar-contact-label">Email</span>
+        <a href="mailto:samaythakur999@gmail.com" style="text-decoration: underline;">samaythakur999@gmail.com</a>
+      </div>
+      <div class="sidebar-contact-item" style="margin-top: 1.25rem; display: flex; gap: 8px; flex-wrap: wrap;">
+        <a href="https://drive.google.com/file/d/1sqw--_ZZOT8PsOvkrtdJ81LezYCOP-Xa/view?usp=drive_link/view?usp=drive_link/preview" target="_blank" class="contact-btn primary">RESUME ↗</a>
+        <a href="https://linkedin.com/in/samaythakur" target="_blank" class="contact-btn">LINKEDIN ↗</a>
+        <a href="https://github.com/samaythakur" target="_blank" class="contact-btn">GITHUB ↗</a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT AREA -->
+  <main class="main-content" id="mainContent">
+
+    <!-- TOP UTILITY BAR -->
+    <div class="top-utility-bar">
+      <!-- Search Trigger Button -->
+      <button class="utility-icon-btn" id="searchBtn" aria-label="Search" title="Search page">
+        <svg viewBox="0 0 24 24" fill="none">
+          <circle cx="11" cy="11" r="7"/>
+          <line x1="16.5" y1="16.5" x2="22" y2="22"/>
+        </svg>
+      </button>
+
+      <!-- Sidebar Toggle Button -->
+      <button class="utility-icon-btn" id="toggleSidebarBtn" aria-label="Toggle Navigation Sidebar" title="Collapse/Expand sidebar">
+        <svg viewBox="0 0 24 24" fill="none">
+          <rect x="3" y="3" width="18" height="18" rx="5"/>
+          <line x1="12" y1="3" x2="12" y2="21"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- SEARCH OVERLAY INPUT -->
+    <div class="search-overlay" id="searchOverlay">
+      <span style="font-family: var(--font-mono); font-weight: 700; font-size: 0.85rem;">SEARCH:</span>
+      <input type="text" class="search-input" id="searchInput" placeholder="Type term (e.g. C++, Git, Udemy, CGPA, Python)..." />
+      <button class="search-close-btn" id="closeSearchBtn">✕</button>
+    </div>
+
+    <!-- ABOUT -->
+    <section id="about" class="section">
+      <div class="section-header">
+        <h3 class="section-title">ABOUT</h3>
+      </div>
+      <p style="font-size: 1.05rem; line-height: 1.7;">
+        I am Samay Thakur, an Electronics & Instrumentation Engineering undergraduate at M.S. Ramaiah Institute of Technology, Bengaluru. I’m interested in the space where technology, people, and ideas come together.
+        I like understanding why problems exist, how people experience them, and what makes a solution genuinely useful—not just technically possible. My engineering background has shaped the way I approach problems with curiosity, logic, and structure, while my interest in products has pushed me to think more deeply about users, experiences, and the decisions behind what we build.
+        I want to build things that solve real problems and create value for people.
+      </p>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects" class="section">
+      <div class="section-header">
+        <h3 class="section-title">PROJECTS</h3>
+      </div>
+
+      <div class="project-list">
+        
+        <!-- Project  -->
+        <article class="project-card">
+          <div class="project-num"></div>
+          <div class="project-details">
+            <h4 class="project-title">SmartQC: On-Device Visual Quality Inspection</h4>
+            <div class="project-subtitle">
+              Qualcomm | Snapdragon® AI Lab Build & Present Challenge
+            </div>
+
+            <div class="project-desc">
+              <ul>
+                <li>The problem:- I built SmartQC, an on-device visual quality inspection tool. The idea started from a problem I'd seen before — small food producers and workshops can't afford industrial inspection hardware, but the alternative, cloud-based AI inspection, has real downsides: latency, ongoing cost per scan, and sending production images off-site. So I set out to build something that ran entirely on-device, on hardware a small business might already own.</li>
+                <li>Building and validating the model:-I trained an image classifier — MobileNetV2 — on a labeled dataset of good and defective bread samples, using transfer learning so I didn't need to train from scratch. It reached 99.2% validation accuracy. But I didn't stop at accuracy — I ran a full evaluation: confusion matrix, precision, recall, and ROC-AUC, which came out to 0.9997. That mattered to me because accuracy alone can hide problems, like a model that's great on one class and bad on the other.</li>
+                <li>Making it deployment-ready:-I exported the model to ONNX and ran it through Qualcomm AI Hub, their cloud compilation service, to optimize it specifically for the Snapdragon X Elite chip. That gave me a genuinely deployment-ready model — not just a model that works in a notebook, but one compiled for real target hardware.</li>
+                <li>Turning results into product decisions:-Then I built an actual desktop app around it, and I made some deliberate product decisions here, not just engineering ones. For example, I added a confidence-threshold feature — if the model isn't confident, instead of forcing a guess, it flags the result as uncertain for manual review. I added that specifically after testing the model against a larger, messier batch of 352 real-world images and seeing it get a few genuinely ambiguous cases wrong — so I used that evaluation data to decide what feature to build next, rather than guessing.</li>
+                <li>Building for the real user, not just the demo:-I also added Grad-CAM explainability — a heatmap that shows which part of the image the model actually looked at — because for something like quality inspection, an operator won't trust a black-box yes/no answer. Being able to see 'here's the mold it detected' builds real trust in the tool. And I added batch processing with CSV export, because a real inspection workflow isn't one image at a time — someone would want to run a whole folder and get a report.</li>
+                <li>Results:-On the real-world batch test — 352 images the model hadn't seen — it got 97.4% right, correctly flagged the ambiguous ones instead of guessing wrong, and that gave me confidence the system would hold up outside a clean lab dataset.</li>
+                <li>Conclusion:-So end to end: I went from identifying a real gap — affordable, private, on-device inspection — to a trained and rigorously evaluated model, to a deployment-optimized build, to an actual usable application with features driven by what the evaluation data told me operators would need, all documented so someone else could reproduce or extend it.</li>
+                <li>Tech/Tools:-Python, PyTorch, ONNX, Qualcomm AI Hub, PyQt5, OpenCV, scikit-learn</li>
+              </ul>
+            </div>
+
+            <div class="project-image-container">
+              <div class="project-media-item">
+                <img src="defective_result.jpg" alt="SmartQC: On-Device Visual Quality Inspection" class="clickable-image">
+                <div class="project-image-title">DEFECTIVE RESULT</div>
+              </div>
+              <div class="project-media-item">
+                <img src="gradcam_result.png" alt="SmartQC: On-Device Visual Quality Inspection" class="clickable-image">
+                <div class="project-image-title">GRAD-CAM EXPLAINABILITY</div>
+              </div>
+              <div class="project-media-item">
+                <img src="confusion_matrix_clean.jpg" alt="SmartQC: On-Device Visual Quality Inspection" class="clickable-image">
+                <div class="project-image-title">CONFUSION MATRIX</div>
+              </div>
+              <div class="project-media-item">
+                <img src="roc_curve_clean.jpg" alt="SmartQC: On-Device Visual Quality Inspection" class="clickable-image">
+                <div class="project-image-title">ROC CURVE</div>
+              </div>
+              <div class="project-media-item">
+                <video controls preload="metadata">
+                  <source src="SmartQC_Demo.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                <div class="project-image-title">PROJECT DEMO</div>
+              </div>
+            </div>
+
+            <a href="https://github.com/samaythakur/SmartQC-On-Device-Visual-Quality-Inspection" target="_blank" class="project-link">View Source Repository ↗</a>
+          </div>
+        </article>
+
+        <!-- Project -->
+        <article class="project-card">
+          <div class="project-num"></div>
+          <div class="project-details">
+            <h4 class="project-title">CynLr EPM PoC</h4>
+            <div class="project-desc">
+              <ul>
+                <li>A program-management project built for an Engineering Program Manager internship application, requiring a technically complex robotics PoC — spanning object tracking and track-and-grasp capability — to be planned and coordinated across robotics, computer vision/ML, software, mechanical, electronics, procurement, and external vendor teams, with no existing execution structure to build from.</li>
+                <li>I structured the program into 41 top-level activities and 97 subtasks in Asana, mapping intra-project dependencies (camera calibration before tracking development, Phase 1 review before Phase 2 execution) and external dependencies (hardware vendors, procurement, robot library support). I built a 604 person-hour resource and effort estimation model in Excel, and designed a KPI framework with lead indicators (readiness, blockers resolved on time) and lag indicators (tracking/grasping performance, final acceptance). I also built in a progress-balancing mechanism so progress wasn't measured by task completion alone, but weighed against quality and integration readiness.</li>
+                <li>The hardest part wasn't listing tasks — it was reasoning about dependencies that weren't obvious on the surface, like recognizing that track-and-grasp (Phase 2) couldn't safely start until tracking reliability was proven in Phase 1, or that a procurement delay on an external component could silently block a CV milestone weeks downstream. Designing the KPI framework also forced a real tradeoff: measuring only task completion would have missed quality and integration readiness, so I built in a mechanism that weighs schedule, dependencies, and technical readiness together rather than just ticking boxes off a list.</li>
+                <li>Tech/Tools: Asana, Microsoft Excel, Google Sheets</li>
+                <li>Skills: Program Planning · Dependency Mapping · Resource Estimation · KPI Design · Risk Management</li>
+              </ul>
+            </div>
+            <div class="project-image-container">
+              <div class="project-media-item">
+                <img src="asana_overview.png" alt="CynLr EPM PoC Overview" class="clickable-image">
+                <div class="project-image-title">ASANA OVERVIEW</div>
+              </div>
+              <div class="project-media-item">
+                <img src="cynlr-epm-poc.jpg" alt="CynLr EPM PoC Dashboard" class="clickable-image">
+                <div class="project-image-title">ASANA DASHBOARD</div>
+              </div>
+            </div>
+            <a href="https://github.com/samaythakur/CynLr-EPM-PoC" target="_blank" class="project-link">View Source Repository ↗</a>
+          </div>
+        </article>
+
+        <!-- Project  -->
+        <article class="project-card">
+          <div class="project-num"></div>
+          <div class="project-details">
+            <h4 class="project-title">AI-Based Bread Quality Indicator System</h4>
+            <div class="project-desc">
+              <ul>
+                <li>This was a hybrid embedded system built for real-time bread spoilage detection, combining an MQ-135 gas sensor and an ESP32-CAM with a MobileNetV2-based image classification model, with alerts delivered through LED/buzzer indicators and a Flask-based web dashboard.</li>
+                <li>The MQ-135 gas sensor continuously monitored spoilage-related gases — ammonia, CO₂, and volatile organic compounds — released as bread decomposed. Alongside this, the ESP32-CAM captured images for AI-based analysis, using a MobileNetV2 CNN trained on a Kaggle moldy-bread dataset (128×128 images, batch size 16, 15 epochs) to classify bread as fresh or moldy. When spoilage was detected, a red LED and buzzer activated; a green LED indicated fresh bread. A Flask web app provided live camera streaming and system status monitoring, with data transmitted over Wi-Fi — though the system could also run standalone without cloud or internet dependency.</li>
+                <li>In testing, gas sensor readings increased measurably as bread moved from fresh to spoiled, and the CNN model successfully differentiated fresh from moldy bread samples in image classification. Real-time alerts through the LED, buzzer, and web dashboard functioned as designed, and the system operated in standalone edge-AI mode without requiring continuous cloud connectivity.</li>
+                <li>Tech/Tools: Python, TensorFlow/Keras, MobileNetV2, Arduino IDE, ESP32-CAM, MQ-135 gas sensor, Flask</li>
+              </ul>
+            </div>
+            <div class="project-image-container">
+              <div class="project-media-item">
+                <img src="bread-quality-indicator.jpg" alt="AI-Based Bread Quality Indicator System Hardware" class="clickable-image">
+                <div class="project-image-title">HARDWARE</div>
+              </div>
+              <div class="project-media-item">
+                <video controls preload="metadata">
+                  <source src="demo.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+                <div class="project-image-title">SOFTWARE DEMO</div>
+              </div>
+            </div>
+            <a href="https://github.com/samaythakur/AI-Based-Bread-Quality-Indicator-System" target="_blank" class="project-link">View Source Repository ↗</a>
+          </div>
+        </article>
+
+        <!-- Project  -->
+        <article class="project-card">
+          <div class="project-num"></div>
+          <div class="project-details">
+            <h4 class="project-title">Stock Market Price Prediction & Analysis</h4>
+            <div class="project-desc">
+              <ul>
+                <li>This project built a complete data analytics and machine learning pipeline in Python to analyze and predict stock prices, using historical OHLCV data for the NIFTY 50 sourced via the yfinance API.</li>
+                <li>The pipeline covered the full data science workflow — data collection, preprocessing, and feature engineering of technical indicators including Moving Averages (MA20, MA50), RSI, MACD, and Bollinger Bands, followed by exploratory data analysis and multi-chart visualization using Matplotlib and Seaborn. A Long Short-Term Memory (LSTM) neural network was designed and trained to predict next-day closing prices from this feature set.</li>
+                <li>The model achieved a Mean Absolute Percentage Error (MAPE) of 1.39% and an R² score of 0.93 on the test set, evaluated against baseline forecasting models. Feature importance analysis found MA20 and MA50 to be the strongest contributing signals, followed by lagged close price, RSI, and MACD — validating the feature engineering approach. The model performed best during sustained trending markets and was comparatively weaker in sideways/choppy conditions, a known limitation of trend-following forecasting models.</li>
+                <li>Tech/Tools: Python, TensorFlow/Keras, LSTM, Pandas, NumPy, Scikit-learn, Matplotlib, Seaborn</li>
+              </ul>
+            </div>
+            <div class="project-image-container">
+              <div class="project-media-item">
+                <img src="image1.jpg" alt="Stock Market Analysis Chart 1" class="clickable-image">
+                <div class="project-image-title">TECHNICAL INDICATORS</div>
+              </div>
+              <div class="project-media-item">
+                <img src="image2.jpg" alt="Stock Market Analysis Chart 2" class="clickable-image">
+                <div class="project-image-title">EXPLORATORY DATA ANALYSIS</div>
+              </div>
+              <div class="project-media-item">
+                <img src="result.jpg" alt="Stock Market Price Prediction Result" class="clickable-image">
+                <div class="project-image-title">MODEL FORECAST RESULT</div>
+              </div>
+            </div>
+            <a href="https://github.com/samaythakur/Stock-Market-Price-Prediction-and-Analysis-Using-Python" target="_blank" class="project-link">View Source Repository ↗</a>
+          </div>
+        </article>
+
+        <!-- Project  -->
+        <article class="project-card">
+          <div class="project-num"></div>
+          <div class="project-details">
+            <h4 class="project-title">Automatic Water Level Control System</h4>
+            <div class="project-desc">
+              <ul>
+                <li>Built during the CPS & IoT Intra-Institutional Internship - This project implemented an automated water level monitoring and pump-control system using an ultrasonic sensor with Arduino Uno, based on non-contact distance measurement of the water surface via ultrasonic wave reflection.</li>
+                <li>The system continuously measured water level and compared it against predefined upper and lower thresholds: when the level dropped below the lower threshold, the pump turned on to begin filling; when it reached the upper threshold, the pump turned off automatically. Built-in safety logic monitored for overflow and dry-run conditions, and sensor/pump faults, to keep the system reliable without manual supervision. Threshold-based control logic was implemented and tested in C/C++ across varying water-level conditions to validate correct ON/OFF automation.</li>
+                <li>As a further exploration, IoT-based remote monitoring concepts using ESP8266 were investigated as a path toward future integration — extending the system beyond standalone operation toward connected, remotely monitorable water management.</li>
+                <li>Tech/Tools: Arduino Uno, ESP8266, Ultrasonic Sensor, C/C++</li>
+              </ul>
+            </div>
+            <div class="project-image-container">
+              <div class="project-media-item">
+                <img src="water-level-control.jpg" alt="Automatic Water Level Control System Schematic" class="clickable-image">
+                <div class="project-image-title">HARDWARE SCHEMATIC</div>
+              </div>
+            </div>
+            <a href="https://github.com/samaythakur/Automatic-Water-Level-Control-System" target="_blank" class="project-link">View Source Repository ↗</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- EXPERIENCE -->
+    <section id="experience" class="section">
+      <div class="section-header">
+        <h3 class="section-title">EXPERIENCE</h3>
+      </div>
+
+      <div class="table-scroll">
+      <table class="academic-table">
+        <thead>
+          <tr>
+            <th style="width: 20%;">Period</th>
+            <th style="width: 30%;">Role & Organization</th>
+            <th style="width: 50%;">Description & Key Technical Contributions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="year">Aug 2024</td>
+            <td>
+              <strong>Trainee - CPS & IoT Intern</strong><br/>
+              <span style="font-size: 0.85rem; color: var(--text-muted);">M.S. Ramaiah Institute of Technology</span>
+            </td>
+            <td>
+              • Developed a real-time water-level monitoring and automated pump-control system using Arduino Uno and ultrasonic sensors, implementing sensor data acquisition and threshold-based control logic in C/C++.<br/>
+              • Tested and debugged the control system under varying water-level conditions to automate pump ON/OFF operation and prevent tank overflow and dry-run conditions.
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- ACADEMICS -->
+    <section id="education" class="section">
+      <div class="section-header">
+        <h3 class="section-title">ACADEMICS</h3>
+      </div>
+
+      <div class="table-scroll">
+      <table class="academic-table">
+        <thead>
+          <tr>
+            <th style="width: 22%;">Year / Timeline</th>
+            <th style="width: 33%;">Degree / Qualification</th>
+            <th style="width: 30%;">Institution</th>
+            <th style="width: 15%;">Performance</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="year">Oct 2023 – Present</td>
+            <td>Bachelor of Engineering (B.E.) in Electronics and Instrumentation</td>
+            <td>M.S. Ramaiah Institute of Technology, Bengaluru</td>
+            <td><strong>CGPA: 7.95</strong></td>
+          </tr>
+          <tr>
+            <td class="year">2021 – 2022</td>
+            <td>Grade XII (CBSE)</td>
+            <td>Sunbeam School Varuna, Varanasi</td>
+            <td>Percentage: 74.2%</td>
+          </tr>
+          <tr>
+            <td class="year">2019 – 2020</td>
+            <td>Grade X (CBSE)</td>
+            <td>Sunbeam School Varuna, Varanasi</td>
+            <td>Percentage: 89.6%</td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- SKILLS -->
+    <section id="skills" class="section">
+      <div class="section-header">
+        <h3 class="section-title">SKILLS</h3>
+      </div>
+
+      <div class="skills-grid">
+
+        <div class="skill-box">
+          <div class="skill-box-title">PM & Program Tools</div>
+          <ul class="skill-list">
+            <li>Asana</li>
+            <li>KPI Frameworks</li>
+            <li>OKR Definition</li>
+            <li>Dependency Mapping</li>
+            <li>Risk Management</li>
+            <li>Resource Planning</li>
+            <li>Feature Prioritization</li>
+            <li>PRD Authoring</li>
+            <li>Cross-functional Coordination</li>
+          </ul>
+        </div>
+
+        <div class="skill-box">
+          <div class="skill-box-title">AI / ML</div>
+          <ul class="skill-list">
+            <li>PyTorch</li>
+            <li>TensorFlow & TFLite</li>
+            <li>Scikit-learn</li>
+            <li>Computer Vision</li>
+            <li>Deep Learning</li>
+            <li>ONNX</li>
+            <li>Qualcomm AI Hub</li>
+          </ul>
+        </div>
+
+        <div class="skill-box">
+          <div class="skill-box-title">Data & Analytics</div>
+          <ul class="skill-list">
+            <li>SQL</li>
+            <li>Microsoft Excel</li>
+            <li>Tableau</li>
+            <li>Power BI</li>
+            <li>A/B Testing Fundamentals</li>
+          </ul>
+        </div>
+
+        <div class="skill-box">
+          <div class="skill-box-title">Engineering</div>
+          <ul class="skill-list">
+            <li>Python</li>
+            <li>C++</li>
+            <li>OpenCV</li>
+            <li>Flask</li>
+            <li>PyQt5</li>
+            <li>SQLite</li>
+            <li>Git</li>
+            <li>GitHub</li>
+            <li>VS Code</li>
+            <li>Jupyter</li> 
+          </ul>
+        </div>
+
+        <div class="skill-box">
+          <div class="skill-box-title">Concepts</div>
+          <ul class="skill-list">
+            <li>Algorithms</li>
+            <li>Data Structures</li>
+            <li>DBMS</li>
+            <li>Operating Systems</li>
+            <li>Computer Networks</li>           
+            <li>Digital Logic Design</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CERTIFICATIONS -->
+    <section id="certificates" class="section">
+      <div class="section-header">
+        <h3 class="section-title">CERTIFICATIONS</h3>
+      </div>
+
+      <div class="table-scroll">
+      <table class="academic-table">
+        <thead>
+          <tr>
+            <th style="width: 15%;">Date</th>
+            <th style="width: 40%;">Certificate Title</th>
+            <th style="width: 20%;">Issuing Authority</th>
+            <th style="width: 25%;">Credential Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="year">Jul 2026</td>
+            <td><strong>Git & GitHub - The Practical Guide</strong></td>
+            <td>Udemy</td>
+            <td>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">ID: UC-d708a4ac-2c94-4422-9fc0-f583b640116c</span>
+              <a href="https://www.udemy.com/certificate/UC-d708a4ac-2c94-4422-9fc0-f583b640116c/" target="_blank" style="text-decoration: underline; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;">VERIFY CREDENTIAL ↗</a>
+            </td>
+          </tr>
+          <tr>
+            <td class="year">Jun 2026</td>
+            <td><strong>Learn C++ Programming - Beginner to Advance - Deep Dive in C++</strong></td>
+            <td>Udemy</td>
+            <td>
+              <span style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-muted); display: block; margin-bottom: 4px;">ID: UC-85875885-9317-49a5-896c-d19e5ea16865</span>
+              <a href="https://www.udemy.com/certificate/UC-85875885-9317-49a5-896c-d19e5ea16865/" target="_blank" style="text-decoration: underline; font-family: var(--font-mono); font-size: 0.8rem; font-weight: 700;">VERIFY CREDENTIAL ↗</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+    </section>
+
+    <!-- ACTIVITIES -->
+    <section id="leadership" class="section">
+      <div class="section-header">
+        <h3 class="section-title">ACTIVITIES</h3>
+      </div>
+
+      <ul style="padding-left: 1.2rem; font-size: 1rem;">
+        <li style="margin-bottom: 0.75rem;">
+          <strong>Student Member:</strong> Instrument Society of India (ISOI), IISc Bangalore (Nov 2023 – Oct 2027).
+        </li>
+        <li style="margin-bottom: 0.75rem;">
+          <strong>Community Volunteer:</strong> Organized and supported blood-donation drives through school and community initiatives, facilitating donor engagement and community welfare.
+        </li>
+      </ul>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <span>Samay Thakur</span>
+      <span>All Rights Reserved</span>
+    </footer>
+
+  </main>
+</div>
+
+<!-- LIGHTBOX MODAL -->
+<div class="lightbox-modal" id="lightboxModal">
+  <span class="lightbox-close" id="lightboxClose">&times;</span>
+  <img id="lightboxImg" src="" alt="Expanded View">
+</div>
+
+<!-- INTERACTIVE SCRIPTS -->
+<script>
+// 1. Sidebar Collapse/Expand Toggle (desktop)
+const appContainer = document.getElementById('appContainer');
+const toggleSidebarBtn = document.getElementById('toggleSidebarBtn');
+
+toggleSidebarBtn.addEventListener('click', () => {
+  appContainer.classList.toggle('sidebar-closed');
+});
+
+// 1b. Mobile Off-Canvas Nav
+const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+const mobileNavBackdrop = document.getElementById('mobileNavBackdrop');
+const mobileSearchBtn = document.getElementById('mobileSearchBtn');
+
+function openMobileNav() {
+  appContainer.classList.add('mobile-nav-open');
+  mobileMenuBtn.setAttribute('aria-expanded', 'true');
+}
+function closeMobileNav() {
+  appContainer.classList.remove('mobile-nav-open');
+  mobileMenuBtn.setAttribute('aria-expanded', 'false');
+}
+
+mobileMenuBtn.addEventListener('click', () => {
+  if (appContainer.classList.contains('mobile-nav-open')) {
+    closeMobileNav();
+  } else {
+    openMobileNav();
+  }
+});
+
+mobileNavBackdrop.addEventListener('click', closeMobileNav);
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeMobileNav();
+});
+
+// Close the drawer after tapping a nav link so the page underneath is visible
+document.querySelectorAll('.sidebar-nav a').forEach(link => {
+  link.addEventListener('click', closeMobileNav);
+});
+
+// Mobile search icon opens the same search overlay used on desktop
+if (mobileSearchBtn) {
+  mobileSearchBtn.addEventListener('click', () => {
+    searchOverlay.classList.add('active');
+    searchInput.focus();
+  });
+}
+
+// 2. Lightbox Modal Logic
+const lightboxModal = document.getElementById('lightboxModal');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxClose = document.getElementById('lightboxClose');
+
+document.querySelectorAll('.clickable-image').forEach(img => {
+  img.addEventListener('click', () => {
+    lightboxImg.src = img.src;
+    lightboxModal.classList.add('active');
+  });
+});
+
+lightboxModal.addEventListener('click', () => {
+  lightboxModal.classList.remove('active');
+});
+
+lightboxClose.addEventListener('click', () => {
+  lightboxModal.classList.remove('active');
+});
+
+// 3. Search Filter Logic
+const searchBtn = document.getElementById('searchBtn');
+const searchOverlay = document.getElementById('searchOverlay');
+const closeSearchBtn = document.getElementById('closeSearchBtn');
+const searchInput = document.getElementById('searchInput');
+const mainContent = document.getElementById('mainContent');
+
+searchBtn.addEventListener('click', () => {
+  searchOverlay.classList.add('active');
+  searchInput.focus();
+});
+
+closeSearchBtn.addEventListener('click', () => {
+  searchOverlay.classList.remove('active');
+  searchInput.value = '';
+  resetSearchFilter();
+});
+
+searchInput.addEventListener('input', (e) => {
+  const query = e.target.value.trim().toLowerCase();
+  
+  if (query.length < 2) {
+    resetSearchFilter();
+    return;
+  }
+
+  performSearch(query);
+});
+
+function performSearch(query) {
+  clearHighlights();
+
+  const sections = document.querySelectorAll('.section');
+  let firstMatchedSection = null;
+
+  sections.forEach(section => {
+    const sectionTitle = section.querySelector('.section-title')?.innerText.toLowerCase() || '';
+    const sectionText = section.innerText.toLowerCase();
+    
+    const matchesHeader = sectionTitle.includes(query);
+    const matchesSection = sectionText.includes(query);
+
+    const projectCards = section.querySelectorAll('.project-card');
+    projectCards.forEach(card => {
+      const cardText = card.innerText.toLowerCase();
+      if (matchesHeader || cardText.includes(query)) {
+        card.classList.remove('search-hidden');
+      } else {
+        card.classList.add('search-hidden');
+      }
+    });
+
+    const tableRows = section.querySelectorAll('.academic-table tbody tr');
+    tableRows.forEach(row => {
+      const rowText = row.innerText.toLowerCase();
+      if (matchesHeader || rowText.includes(query)) {
+        row.classList.remove('search-hidden');
+      } else {
+        row.classList.add('search-hidden');
+      }
+    });
+
+    const skillBoxes = section.querySelectorAll('.skill-box');
+    skillBoxes.forEach(box => {
+      const boxText = box.innerText.toLowerCase();
+      if (matchesHeader || boxText.includes(query)) {
+        box.classList.remove('search-hidden');
+      } else {
+        box.classList.add('search-hidden');
+      }
+    });
+
+    if (matchesHeader || matchesSection) {
+      section.classList.remove('search-hidden');
+      if (!firstMatchedSection) firstMatchedSection = section;
+      highlightMatches(section, query);
+    } else {
+      section.classList.add('search-hidden');
+    }
+  });
+
+  if (firstMatchedSection) {
+    firstMatchedSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+function resetSearchFilter() {
+  clearHighlights();
+  document.querySelectorAll('.section, .project-card, .academic-table tbody tr, .skill-box').forEach(el => {
+    el.classList.remove('search-hidden');
+  });
+}
+
+function highlightMatches(element, query) {
+  const textNodes = getTextNodes(element);
+  textNodes.forEach(node => {
+    const parent = node.parentNode;
+    if (['SCRIPT', 'STYLE', 'INPUT', 'MARK'].includes(parent.tagName) || parent.id === 'searchOverlay') return;
+    
+    const text = node.nodeValue;
+    const lowerText = text.toLowerCase();
+    const index = lowerText.indexOf(query);
+
+    if (index !== -1) {
+      const span = document.createElement('span');
+      const before = text.substring(0, index);
+      const match = text.substring(index, index + query.length);
+      const after = text.substring(index + query.length);
+
+      span.innerHTML = `${before}<mark class="search-highlight">${match}</mark>${after}`;
+      parent.replaceChild(span, node);
+    }
+  });
+}
+
+function clearHighlights() {
+  const marks = mainContent.querySelectorAll('mark.search-highlight');
+  marks.forEach(mark => {
+    const parent = mark.parentNode;
+    parent.replaceChild(document.createTextNode(mark.textContent), mark);
+    parent.normalize();
+  });
+}
+
+function getTextNodes(element) {
+  let textNodes = [];
+  for (let node of element.childNodes) {
+    if (node.nodeType === Node.TEXT_NODE && node.nodeValue.trim() !== '') {
+      textNodes.push(node);
+    } else if (node.nodeType === Node.ELEMENT_NODE) {
+      textNodes = textNodes.concat(getTextNodes(node));
+    }
+  }
+  return textNodes;
+}
+</script>
+
+</body>
+</html>
