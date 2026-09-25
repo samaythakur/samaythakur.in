@@ -600,6 +600,10 @@ footer {
   justify-content: space-between;
 }
 
+.mobile-footer {
+  display: none;
+}
+
 /* RESPONSIVE */
 
 /* Table horizontal scroll wrapper (all breakpoints, only kicks in when needed) */
@@ -630,9 +634,17 @@ footer {
     right: 0;
     height: 60px;
     padding: 0 1rem;
-    background: var(--bg-card);
+    background: rgba(255, 255, 255, 0.85);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     border-bottom: 2px solid var(--border-color);
     z-index: 200;
+    transform: translateY(0);
+    transition: transform 0.28s ease, background-color 0.2s ease;
+  }
+
+  .mobile-topbar.topbar-hidden {
+    transform: translateY(-100%);
   }
 
   .mobile-topbar-identity {
@@ -805,10 +817,18 @@ footer {
     grid-template-columns: 1fr;
   }
 
-  footer {
+  footer.desktop-footer {
+    display: none;
+  }
+
+  .mobile-footer {
+    display: flex;
     flex-direction: column;
-    gap: 0.4rem;
-    text-align: left;
+    align-items: center;
+    text-align: center;
+    gap: 0.5rem;
+    font-size: 0.72rem;
+    letter-spacing: 0.01em;
   }
 
   /* Tables scroll horizontally instead of squeezing columns unreadably */
@@ -1331,9 +1351,15 @@ footer {
     </section>
 
     <!-- FOOTER -->
-    <footer>
+    <footer class="desktop-footer">
       <span>Samay Thakur</span>
       <span>All Rights Reserved</span>
+    </footer>
+
+    <!-- MOBILE FOOTER -->
+    <footer class="mobile-footer">
+      <span>India</span>
+      <span>Copyright © 2026 Samay Thakur. All rights reserved.</span>
     </footer>
 
   </main>
@@ -1395,6 +1421,35 @@ if (mobileSearchBtn) {
     searchInput.focus();
   });
 }
+
+// 1c. Auto-hide mobile top bar while scrolling down, reveal on scroll up
+const mobileTopbar = document.querySelector('.mobile-topbar');
+let lastScrollY = window.scrollY;
+let topbarTicking = false;
+
+function updateTopbarVisibility() {
+  const currentY = window.scrollY;
+  const scrolledDown = currentY > lastScrollY;
+  const pastThreshold = currentY > 80;
+
+  if (appContainer.classList.contains('mobile-nav-open')) {
+    mobileTopbar.classList.remove('topbar-hidden');
+  } else if (scrolledDown && pastThreshold) {
+    mobileTopbar.classList.add('topbar-hidden');
+  } else if (!scrolledDown) {
+    mobileTopbar.classList.remove('topbar-hidden');
+  }
+
+  lastScrollY = currentY;
+  topbarTicking = false;
+}
+
+window.addEventListener('scroll', () => {
+  if (!topbarTicking) {
+    window.requestAnimationFrame(updateTopbarVisibility);
+    topbarTicking = true;
+  }
+}, { passive: true });
 
 // 2. Lightbox Modal Logic
 const lightboxModal = document.getElementById('lightboxModal');
