@@ -348,25 +348,13 @@ mark.search-highlight {
   border: 2px solid var(--border-color);
   background: var(--bg-card);
   display: grid;
-  grid-template-columns: 70px 1fr;
-  box-shadow: 4px 4px 0px var(--border-color);
+  grid-template-columns: 1fr;
+  box-shadow: none;
   overflow: hidden;
 }
 
 .project-card.search-hidden {
   display: none !important;
-}
-
-.project-num {
-  background: var(--border-color);
-  color: var(--bg-card);
-  font-family: var(--font-mono);
-  font-size: 1.75rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-right: 2px solid var(--border-color);
 }
 
 .project-details {
@@ -471,7 +459,7 @@ mark.search-highlight {
 .project-link:hover {
   background: #111111;
   color: #ffffff;
-  box-shadow: 3px 3px 0px var(--border-color);
+  box-shadow: 2px 2px 0px var(--border-color);
 }
 
 /* LIGHTBOX MODAL */
@@ -562,7 +550,7 @@ mark.search-highlight {
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  box-shadow: 4px 4px 0px var(--border-color);
+  box-shadow: none;
 }
 
 .skill-box.search-hidden {
@@ -733,11 +721,6 @@ footer {
   }
   .project-card {
     grid-template-columns: 1fr;
-  }
-  .project-num {
-    padding: 0.75rem;
-    border-right: none;
-    border-bottom: 2px solid var(--border-color);
   }
   .academic-table {
     table-layout: auto;
@@ -916,7 +899,7 @@ footer {
         <a href="mailto:samaythakur999@gmail.com" style="text-decoration: underline;">samaythakur999@gmail.com</a>
       </div>
       <div class="sidebar-contact-item" style="margin-top: 1.25rem; display: flex; gap: 8px; flex-wrap: wrap;">
-        <a href="https://drive.google.com/file/d/1zQC41pIfqu8HfXcHoMwVv-s5XHRZFL0G/view?usp=drive_link/preview" target="_blank" class="contact-btn primary">RESUME ↗</a>
+        <a href="https://drive.google.com/file/d/1pg9z4Rf_M3i3A0txA8VjyJ2eOMGqQq2Y/view?usp=drive_link/preview" target="_blank" class="contact-btn primary">RESUME ↗</a>
         <a href="https://linkedin.com/in/samaythakur" target="_blank" class="contact-btn">LINKEDIN ↗</a>
         <a href="https://github.com/samaythakur" target="_blank" class="contact-btn">GITHUB ↗</a>
       </div>
@@ -975,7 +958,6 @@ footer {
         
         <!-- Project -->
         <article class="project-card">
-          <div class="project-num"></div>
           <div class="project-details">
             <h4 class="project-title">SmartQC: On-Device Visual Quality Inspection</h4>
             <div class="project-subtitle">
@@ -1027,7 +1009,26 @@ footer {
 
         <!-- Project -->
         <article class="project-card">
-          <div class="project-num"></div>
+          <div class="project-details">
+            <h4 class="project-title">Product Space Interview Growth Strategy</h4>
+            <div class="project-desc">
+              <ul>
+                <li>Executive Summary: Formulated a growth strategy rooted in the thesis that content is ubiquitous, but access to practitioners and clear progress are scarce. Transformed static interviews into an interactive Watch → Practise → Track learning unit. Designed three strategic bets addressing passive consumption (D1), role-based discovery (D4), and credibility/trust gaps (D3). Defined the North Star metric as Weekly Returning Interview Learners (WRIL) with a 60% watch threshold, paired with a holdout group to establish causality and mitigate cannibalisation risks.</li>
+                <li>Diagnosis (D1 to D4): Formulated testable hypotheses regarding passive consumption, lack of engagement rhythm, trust gaps, and unstructured personal learning paths, validating them through early post-watch behavioral tracking and user surveys.</li>
+                <li>Target Users & JTBD: Identified primary segments (Job Seekers & Active Learners with urgent interview preparation deadlines) using Jobs-to-be-Done (JTBD) principles where urgency drives high usage frequency, while keeping passive audience members as secondary.</li>
+                <li>Value Proposition & Pillar Strategy: Engineered three primary value pillars: Insider Signal (real interview questions asked), Role-Model Proof (authentic candidate experiences), and Applied Practice (interactive self-scoring/practice modules).</li>
+                <li>Distribution & Channels: Prioritised in-product discovery and guest co-distribution (P0) for immediate, high-trust reach, while deferring long-tail SEO compounding strategies (P1).</li>
+                <li>Engagement Loops & Retention: Applied Nir Eyal's Hook Model (Trigger → Action → Variable Reward → Investment) featuring a seamless learner journey: Discover → Watch → Practise → Compare → Track → Ask. Implemented light streak mechanisms and user question submissions without heavy gamification noise.</li>
+                <li>Content Engine & Credibility System: Established a 4-pillar trust framework (Verified, Specific, Independent, Accountable) supported by an 8/10 Quality Scorecard threshold. Atomised single interview recordings into modular assets (clips, practice sets, SEO pages) to lower cost per learning asset.</li>
+                <li>Metrics, Experiments & Strategy: Structured a full-funnel KPI dashboard (Discovery, Activation, Retention, Credibility, Loop Health, Business). Leveraged a qualitative RICE prioritization matrix to guide 30/60/90-day experiment execution with clear ship-or-kill criteria.</li>
+              </ul>
+            </div>
+            <a href="https://github.com/samaythakur/Product-Space-Interview-Growth-Strategy" target="_blank" class="project-link">View Source Repository ↗</a>
+          </div>
+        </article>
+
+        <!-- Project -->
+        <article class="project-card">
           <div class="project-details">
             <h4 class="project-title">CynLr EPM PoC</h4>
             <div class="project-desc">
@@ -1055,7 +1056,6 @@ footer {
 
         <!-- Project -->
         <article class="project-card">
-          <div class="project-num"></div>
           <div class="project-details">
             <h4 class="project-title">AI-Based Bread Quality Indicator System</h4>
             <div class="project-desc">
@@ -1085,7 +1085,6 @@ footer {
 
         <!-- Project -->
         <article class="project-card">
-          <div class="project-num"></div>
           <div class="project-details">
             <h4 class="project-title">Stock Market Price Prediction & Analysis</h4>
             <div class="project-desc">
@@ -1116,7 +1115,6 @@ footer {
 
         <!-- Project -->
         <article class="project-card">
-          <div class="project-num"></div>
           <div class="project-details">
             <h4 class="project-title">Automatic Water Level Control System</h4>
             <div class="project-desc">
@@ -1258,7 +1256,6 @@ footer {
             <li>Microsoft Excel</li>
             <li>Tableau</li>
             <li>Power BI</li>
-            <li>A/B Testing Fundamentals</li>
           </ul>
         </div>
 
