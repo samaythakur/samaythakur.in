@@ -63,6 +63,23 @@ a {
   display: flex;
   min-height: 100vh;
   width: 100%;
+  position: relative;
+}
+
+/* SIDEBAR BACKDROP FOR MOBILE */
+.sidebar-backdrop {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 95;
+}
+
+.sidebar-backdrop.active {
+  display: block;
 }
 
 /* SIDEBAR */
@@ -213,10 +230,10 @@ a {
   gap: 12px;
   margin-bottom: 1.5rem;
   position: sticky;
-  top: 1rem;
+  top: 0;
   z-index: 90;
   background: var(--bg-page);
-  padding: 6px 0;
+  padding: 10px 0;
 }
 
 .utility-actions {
@@ -516,6 +533,8 @@ footer {
   color: var(--text-muted);
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
 }
 
 /* LIGHTBOX MODAL */
@@ -545,35 +564,65 @@ footer {
   object-fit: contain;
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE & MOBILE DESIGN ADJUSTMENTS */
 .table-scroll {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 @media (max-width: 900px) {
-  .app-container {
-    flex-direction: column;
-  }
+  /* Mobile Sidebar Off-canvas Drawer */
   .sidebar {
-    width: 270px;
-    min-width: 270px;
+    width: 280px;
+    max-width: 85vw;
     position: fixed;
-    height: 100vh;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    box-shadow: 4px 0px 12px rgba(0, 0, 0, 0.2);
   }
+
   .main-content {
     margin-left: 0 !important;
     width: 100% !important;
-    padding: 1.25rem;
+    padding: 1rem 1.25rem 2rem 1.25rem;
   }
+
+  .search-overlay {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .search-close-btn {
+    align-self: flex-end;
+  }
+
+  .project-image-container {
+    grid-template-columns: 1fr;
+  }
+
   .academic-table {
-    min-width: 500px;
+    min-width: 550px;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  footer {
+    flex-direction: column;
+    gap: 6px;
   }
 }
 </style>
 </head>
 <body>
 
-<div class="app-container" id="appContainer">
+<div class="app-container sidebar-closed" id="appContainer">
+
+  <!-- MOBILE BACKDROP -->
+  <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
 
   <!-- LEFT SIDEBAR -->
   <aside class="sidebar">
@@ -586,13 +635,13 @@ footer {
       </div>
 
       <ul class="sidebar-nav">
-        <li><a href="#about"><span>ABOUT</span> <span>→</span></a></li>
-        <li><a href="#projects"><span>PROJECTS</span> <span>→</span></a></li>
-        <li><a href="#experience"><span>EXPERIENCE</span> <span>→</span></a></li>
-        <li><a href="#education"><span>ACADEMICS</span> <span>→</span></a></li>
-        <li><a href="#skills"><span>SKILLS</span> <span>→</span></a></li>
-        <li><a href="#certificates"><span>CERTIFICATIONS</span> <span>→</span></a></li>
-        <li><a href="#activities"><span>ACTIVITIES</span> <span>→</span></a></li>
+        <li><a href="#about" class="nav-link"><span>ABOUT</span> <span>→</span></a></li>
+        <li><a href="#projects" class="nav-link"><span>PROJECTS</span> <span>→</span></a></li>
+        <li><a href="#experience" class="nav-link"><span>EXPERIENCE</span> <span>→</span></a></li>
+        <li><a href="#education" class="nav-link"><span>ACADEMICS</span> <span>→</span></a></li>
+        <li><a href="#skills" class="nav-link"><span>SKILLS</span> <span>→</span></a></li>
+        <li><a href="#certificates" class="nav-link"><span>CERTIFICATIONS</span> <span>→</span></a></li>
+        <li><a href="#activities" class="nav-link"><span>ACTIVITIES</span> <span>→</span></a></li>
       </ul>
     </div>
 
@@ -616,7 +665,7 @@ footer {
   <!-- MAIN CONTENT AREA -->
   <main class="main-content" id="mainContent">
 
-    <!-- TOP UTILITY BAR WITH TOGGLE AT TOP RIGHT -->
+    <!-- TOP UTILITY BAR -->
     <div class="top-utility-bar">
       <div class="utility-actions">
         <button class="utility-icon-btn" id="sidebarToggleBtn" title="Toggle Sidebar">☰</button>
@@ -1018,13 +1067,38 @@ footer {
 <script>
 const appContainer = document.getElementById('appContainer');
 const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
+const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+
+function toggleSidebar() {
+  appContainer.classList.toggle('sidebar-closed');
+  const isClosed = appContainer.classList.contains('sidebar-closed');
+  sidebarToggleBtn.textContent = isClosed ? '☰' : '✕';
+  
+  if (window.innerWidth <= 900) {
+    if (!isClosed) {
+      sidebarBackdrop.classList.add('active');
+    } else {
+      sidebarBackdrop.classList.remove('active');
+    }
+  }
+}
 
 if (sidebarToggleBtn) {
-  sidebarToggleBtn.addEventListener('click', () => {
-    appContainer.classList.toggle('sidebar-closed');
-    sidebarToggleBtn.textContent = appContainer.classList.contains('sidebar-closed') ? '☰' : '✕';
-  });
+  sidebarToggleBtn.addEventListener('click', toggleSidebar);
 }
+
+if (sidebarBackdrop) {
+  sidebarBackdrop.addEventListener('click', toggleSidebar);
+}
+
+// Close mobile sidebar on navigating to section
+document.querySelectorAll('.nav-link').forEach(link => {
+  link.addEventListener('click', () => {
+    if (window.innerWidth <= 900 && !appContainer.classList.contains('sidebar-closed')) {
+      toggleSidebar();
+    }
+  });
+});
 
 // Lightbox
 const lightboxModal = document.getElementById('lightboxModal');
@@ -1050,7 +1124,7 @@ themeToggleBtn.addEventListener('click', () => {
   themeToggleBtn.textContent = targetTheme === 'dark' ? '☀️' : '🌙';
 });
 
-// Search Filter - Filters without losing content or collapsing structure
+// Search Filter - Non-destructive content filtering
 const searchBtn = document.getElementById('searchBtn');
 const searchOverlay = document.getElementById('searchOverlay');
 const closeSearchBtn = document.getElementById('closeSearchBtn');
@@ -1119,10 +1193,8 @@ function performSearchFilter(query) {
       }
     });
 
-    // Keep section visible if section text matches or any child matches
     if (matchesSection) {
       section.classList.remove('search-hidden');
-      // If no individual sub-card matched directly, keep all sub-items open
       if (projectCards.length > 0 && matchedCardsCount === 0) {
         projectCards.forEach(card => card.classList.remove('search-hidden'));
       }
