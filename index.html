@@ -619,7 +619,7 @@ footer {
 </head>
 <body>
 
-<div class="app-container sidebar-closed" id="appContainer">
+<div class="app-container" id="appContainer">
 
   <!-- MOBILE BACKDROP -->
   <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
@@ -1069,6 +1069,19 @@ const appContainer = document.getElementById('appContainer');
 const sidebarToggleBtn = document.getElementById('sidebarToggleBtn');
 const sidebarBackdrop = document.getElementById('sidebarBackdrop');
 
+// Auto-adjust initial sidebar state based on screen size (Open on desktop/tablet, closed on mobile)
+function applyInitialLayout() {
+  if (window.innerWidth <= 900) {
+    appContainer.classList.add('sidebar-closed');
+    sidebarToggleBtn.textContent = '☰';
+  } else {
+    appContainer.classList.remove('sidebar-closed');
+    sidebarToggleBtn.textContent = '✕';
+  }
+}
+
+applyInitialLayout();
+
 function toggleSidebar() {
   appContainer.classList.toggle('sidebar-closed');
   const isClosed = appContainer.classList.contains('sidebar-closed');
@@ -1091,7 +1104,7 @@ if (sidebarBackdrop) {
   sidebarBackdrop.addEventListener('click', toggleSidebar);
 }
 
-// Close mobile sidebar on navigating to section
+// Close mobile sidebar on navigating to a section link
 document.querySelectorAll('.nav-link').forEach(link => {
   link.addEventListener('click', () => {
     if (window.innerWidth <= 900 && !appContainer.classList.contains('sidebar-closed')) {
